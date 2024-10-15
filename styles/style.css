@@ -1,0 +1,167 @@
+title {
+  font-family: "Cinzel", serif;
+  font-size: 30px;
+  font-weight: bold;
+  color: #c0392b;
+}
+
+body {
+  font-family: serif;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.highlight {
+  background-color: green;
+  color: white;
+  font-weight: bold;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+#sombrero {
+  position: absolute;
+  width: 50px;
+  height: auto;
+  pointer-events: none;
+  display: none;
+}
+
+h3 {
+  font-family: "Cinzel", serif;
+  font-size: 24px;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  flex: 1;
+}
+
+#game-intro {
+  font-family: "Cinzel", serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-image: url("/images/background1.jpg");
+  background-size: cover;
+  background-position: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 90vh;
+  z-index: 1;
+}
+
+#game-intro img {
+  width: 160px;
+  height: auto;
+  margin-bottom: 40px;
+}
+
+#start-button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#start-button:hover {
+  background-color: #c0392b;
+}
+
+@keyframes spin {
+  from {
+    transform: rotateY(0deg);
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+    -webkit-transform: rotateY(360deg);
+    -moz-transform: rotateY(360deg);
+    -ms-transform: rotateY(360deg);
+    -o-transform: rotateY(360deg);
+  }
+}
+
+.spin-animation {
+  animation: spin 1s ease-in-out;
+  -webkit-animation: spin 1s ease-in-out;
+}
+
+#game-screen {
+  display: none;
+  text-align: center;
+  background-image: url("/images/background0.avif");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+/* includes the Statistics */
+#game-container {
+  font-family: "Cinzel", serif;
+  display: block;
+  padding: 20px;
+  text-align: left;
+  top: 20px;
+  font-weight: bold;
+  right: -80px;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.candy {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  z-index: 10;
+}
+
+#game-end {
+  display: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  background-image: url("/images/finalimage.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+#restart-button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#restart-button:hover {
+  background-color: #c0392b;
+}

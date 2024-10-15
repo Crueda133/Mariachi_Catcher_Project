@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <title>Mariachi Catcher</title>
+  </head>
+  <body>
+    <main>
+      <img src="/images/sombrero.png" alt="sombrero" id="sombrero" />
+
+      <!-- 1 Game start screen #game-intro -->
+      <div id="game-intro">
+        <h1>Mariachi Catcher</h1>
+        <h3>
+          "Oh no! The <span class="highlight">mariachi</span> is racing to the
+          biggest fiesta 🎉 of the year,
+          <br />
+          but he forgot the most important thing – the
+          <span class="highlight">candy 🍬</span> for the
+          <span class="highlight">piñata 🪅</span>!
+          <br />
+          It’s up to you to help him catch all the falling candies
+          <br />
+          and fill up the piñata before the
+          <span class="highlight">party</span> starts.
+          <br />
+          But <span class="highlight">watch out❗ </span>
+          <br />
+          Don’t get tempted by the <span class="highlight">tequila 🍋</span>,
+          <br />
+          and steer clear of the tricky
+          <span class="highlight">cactus! 🌵 </span> <br />Stuff that piñata
+          full of sweets so the mariachi can bring the fun to the
+          <span class="highlight">fiesta! </span>
+          <br />
+          Get set to party like there's no mañana!"
+        </h3>
+        <br />
+        <img
+          src="/images/mariachi.png"
+          alt="mariachi"
+          class="mariachi"
+          id="game-mariachi"
+          style="display: block"
+        />
+        <button id="start-button">Start Game</button>
+      </div>
+      <!-- Others are hidden using CSS style display: none -->
+
+      <!-- 2 Game starts #game-screen is initially hidden using CSS style display: none -->
+      <div id="game-screen" style="display: none">
+        <div id="game-container">
+          <div>
+            <h2>Your statistics</h2>
+            <p>Level: <span id="level">0</span></p>
+            <p>Candies collected: <span id="candies">0</span></p>
+            <p>Lives: <span id="lives">5</span></p>
+            <p>
+              Use the left ⬅️
+              <br />
+              &
+              <br />
+              right arrow ➡️ <br />
+              to control the Mariachi!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. #game-end is initially hidden using CSS style display: none -->
+      <div id="game-end">
+        <img src="./images/finalimage.jpg" alt="finalimage" class="" />
+        <h1>Game Over</h1>
+        <br />
+        <button id="restart-button">Restart game</button>
+      </div>
+    </main>
+
+    <!--the order is important  -->
+    <script type="text/javascript" src="js/obstacle.js"></script>
+    <script type="text/javascript" src="js/player.js"></script>
+    <script type="text/javascript" src="js/things.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+  </body>
+</html>
