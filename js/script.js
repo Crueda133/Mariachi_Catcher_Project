@@ -47,6 +47,8 @@ function startGame() {
 // Change the background when the button Start game is clicked
 function changeBackgroundImage(imageUrl) {
   document.body.style.backgroundImage = `url('${imageUrl}')`;
+  document.body.style.backgroundRepeat = "no-repeat";
+  document.body.style.backgroundSize = "cover";
 }
 
 const gameMariachi = document.getElementById("game-mariachi");
