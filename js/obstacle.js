@@ -1,12 +1,13 @@
 class Obstacle {
   constructor() {
     this.gameScreen = document.querySelector("#game-screen");
-    this.positionsX = [250, 300, 350, 400, 450, 500, 550];
+    // this.positionsX = Math.floor(Math.random() * window.innerWidth);
+    this.positionsX = [200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000];
     this.randomIndex = Math.floor(Math.random() * this.positionsX.length);
     this.left = this.positionsX[this.randomIndex];
     this.top = -150;
-    this.width = 60;
-    this.height = 60;
+    this.width = 200;
+    this.height = 200;
 
     // Randomly pick an obstacle type from the list
     this.obstacleTypes = [
@@ -35,8 +36,8 @@ class Obstacle {
     //this actually adds the img to the DOM
     this.gameScreen.appendChild(this.element);
   }
-  move() {
-    this.top += 3;
+  move(speed) {
+    this.top += speed;
     this.updatePosition();
     console.log(`Obstacle moved to the top: ${this.top}`);
   }

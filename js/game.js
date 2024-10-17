@@ -11,16 +11,25 @@ class Game {
     this.obstacles = [];
     this.counter = 0;
     this.candies = 0;
-    this.lives = 5;
+    this.lives = 3;
     this.score = 0;
-    this.speed = 5;
+    this.speed = 5; //obstacles speed
+    this.playerSpeed = 5; //player speed
     this.defaultSpeed = 5;
     this.gameIsOver = false;
     this.gameIntervalId = null;
     this.gameLoopFrequency = 1000 / 60;
+    this.countdownMessageElement = document.querySelector("#countdown-message");
+    this.countdownTexts = ["¡Tres!", "¡Dos!", "¡Uno!", "GO!"];
+    this.restartButton = document.querySelector("#restart-button");
 
-    // Player Mariachi - this uses the Player class from player.js
+    // // Player Mariachi - this uses the Player class from player.js
     this.player = new Player(500, 500, 300, 300, "images/mariachi.png");
+
+    this.timer = 60;
+    this.timerElement = document.querySelector("#timer");
+    this.gameIntervalId = null;
+    this.timerIntervalId = null;
   }
 
   start() {
@@ -31,28 +40,84 @@ class Game {
     this.startScreen.style.display = "none";
     this.gameScreen.style.display = "block";
     this.gameContainer.style.display = "block";
+    this.gameEndScreen.style.display = "none";
+
+    // Ensure the player is added to the screen before the countdown starts
+    this.gameScreen.appendChild(this.player.element);
 
     // Reset the score and lives display
     this.candies = 0;
-    this.lives = 5;
+    this.lives = 3;
     this.candiesScoreElement.innerText = this.candies;
     this.livesElement.innerText = this.lives;
 
-    //create the loop for the game
-    this.gameIntervalId = setInterval(() => {
-      this.gameLoop();
-    }, this.gameLoopFrequency);
+    // Start timer, countdown
+    this.startTimer();
+  }
+
+  startTimer() {
+    this.timerElement.innerText = this.timer;
+    this.timerIntervalId = setInterval(() => {
+      this.timer--;
+      this.timerElement.innerText = this.timer;
+
+      // Check if time is up
+      if (this.timer <= 0) {
+        this.gameIsOver = true; // Set game over condition
+        this.endGame("lost"); // Call endGame with lose message
+      }
+    }, 1000); // Update timer every second
+
+    // Start countdown
+    this.startCountdown();
+  }
+
+  // Show the countdown message
+  startCountdown() {
+    let countdownIndex = 0;
+    this.countdownMessageElement.style.display = "block";
+
+    const countdownInterval = setInterval(() => {
+      this.countdownMessageElement.innerText =
+        this.countdownTexts[countdownIndex];
+      countdownIndex++;
+
+      // After the last message, clear the interval, Hide the countdown and start the game
+      if (countdownIndex >= this.countdownTexts.length) {
+        clearInterval(countdownInterval);
+        this.countdownMessageElement.style.display = "none";
+
+        //create the loop for the game (1sec)
+        this.gameIntervalId = setInterval(() => {
+          this.gameLoop();
+        }, this.gameLoopFrequency);
+      }
+    }, 1000);
   }
 
   // the update checks if the game is finished. If true the game will stop
   gameLoop() {
     // Moves the mariachi player
-    this.player.move();
     this.update();
-    console.log("Game loop is running");
     if (this.gameIsOver) {
       clearInterval(this.gameIntervalId);
     }
+  }
+
+  // Function to highlight the candy score
+  highlightCandyScore(element) {
+    element.classList.add("candy-highlight");
+    setTimeout(() => {
+      element.classList.remove("candy-highlight");
+    }, 800);
+  }
+
+  // Function to highlight the lives score
+  highlightLivesScore(element) {
+    element.classList.add("lives-highlight");
+    setTimeout(() => {
+      element.classList.remove("lives-highlight");
+    }, 800);
   }
 
   // Update player position and here I will update the obstacles, scores, etc.
@@ -60,7 +125,9 @@ class Game {
     //increment the counter so we can add obstacles when it is a certain number
     this.counter++;
     //this updates the player on the DOM based on the directions of the player
-    this.player.move();
+    if (this.player) {
+      this.player.move();
+    }
 
     //this will move all of the obstacles
     for (let i = 0; i < this.obstacles.length; i++) {
@@ -73,31 +140,39 @@ class Game {
 
       // Check which type of obstacle was collided with and apply respective logic
       if (didCollide) {
+        this.player.shake();
         if (currentObstacle.element.src.includes("candies")) {
           this.candies++;
           this.candiesScoreElement.innerText = this.candies;
-          removeObstacle = true;
+          this.highlightCandyScore(this.candiesScoreElement);
+          currentObstacle.element.remove();
         } else if (currentObstacle.element.src.includes("avocado")) {
-          this.player.width -= 40; // Decrease width (make player thin)
+          this.player.width -= 110; // Decrease width (make player thin)
           this.player.element.style.width = `${this.player.width}px`;
-          removeObstacle = true;
+          currentObstacle.element.remove();
+        } else if (currentObstacle.element.src.includes("cactus")) {
+          this.lives--;
+          this.livesElement.innerText = this.lives;
+          this.highlightLivesScore(this.livesElement);
+          currentObstacle.element.remove();
         } else if (currentObstacle.element.src.includes("chili")) {
-          this.speed += 14; // Increase falling speed of obstacles
-          removeObstacle = true;
+          this.speed += 10; // Increase falling speed of obstacles
+          this.playerSpeed += 10; // Increase player speed
+          currentObstacle.element.remove();
         } else if (currentObstacle.element.src.includes("tacos")) {
-          this.player.width += 40; // Increase width (make player fat)
+          this.player.width += 110; // Increase width (make player fat)
           this.player.element.style.width = `${this.player.width}px`;
-          removeObstacle = true;
+          currentObstacle.element.remove();
         } else if (currentObstacle.element.src.includes("tequila")) {
-          this.player.directionX *= 0.02; // Reduce player movement speed
-          this.player.directionY *= 0.02;
-          removeObstacle = true;
+          this.speed -= 2; // Decreases falling speed of obstacles
+          this.playerSpeed -= 20; // Decreases player speed
+          currentObstacle.element.remove();
         }
       }
 
       // If the obstacle has gone off the screen, mark it for removal
       if (currentObstacle.top > this.height + 100) {
-        removeObstacle = true;
+        currentObstacle.element.remove();
       }
       //this checks the top of the obstacle and if it is greater than the height of the game screen it removes that obstacle
       if (removeObstacle) {
@@ -105,33 +180,82 @@ class Game {
         this.obstacles.splice(i, 1);
         i--;
       }
-    }
 
-    // Remove obstacles that go off the screen
-    if (currentObstacle.top > this.height + 100) {
-      currentObstacle.element.remove();
-      this.obstacles.splice(i, 1);
-      i--;
+      // Remove obstacles that go off the screen
+      if (currentObstacle.top > this.height + 100) {
+        currentObstacle.element.remove();
+        this.obstacles.splice(i, 1);
+        i--;
+      }
     }
-
     //this adds a new obstacle to the array every so many frames
-    if (this.counter % 60 === 0) {
+    if (this.counter % 140 === 0) {
       this.obstacles.push(new Obstacle());
       console.log("New obstacle created");
     }
 
-    //outside the for loop
+    //Game is over conditions
+
+    // Check if candies or cactus conditions are met
+    if (this.candies >= 10) {
+      this.gameIsOver = true;
+      this.endGame("won");
+      return;
+    }
+
+    if (this.cactusTouches >= 3 || this.lives <= 0) {
+      this.gameIsOver = true;
+      this.endGame("lost");
+      return;
+    }
+
     //checking for when the game is over
     if (this.lives === 0) {
       this.gameIsOver = true;
       this.endGame();
     }
   }
-  endGame() {
+
+  // restartGame method to reset the game
+  restartGame() {
+    this.gameEndScreen.style.display = "none";
+    this.gameScreen.style.display = "none";
+    this.startScreen.style.display = "block";
+  }
+
+  endGame(result) {
+    clearInterval(this.timerIntervalId); // Stop the timer when the game ends
+
+    //for the obstacles
     this.player.element.remove();
     this.obstacles.forEach((oneObstacle) => oneObstacle.element.remove());
+
     //hide the game screen and show the game over screen
     this.gameScreen.style.display = "none";
     this.gameEndScreen.style.display = "block";
+
+    // change the background image depending on the result of the game
+    if (result === "won") {
+      changeBackgroundImage("images/finalImageWon.webp");
+      console.log("change background WON");
+    } else {
+      changeBackgroundImage("images/finalImageSad.webp");
+      console.log("LOST");
+    }
+
+    // end message text
+    const endMessage = document.createElement("p");
+    if (result === "won") {
+      endMessage.innerText =
+        "Congratulations, you helped the Mariachi to fill up the piñata! Now is time to PARTY!";
+    } else {
+      endMessage.innerText =
+        "Oh no! The Mariachi doesn't have enough candies for the piñata. Wanna try again? ";
+    }
+
+    // CSS class for styling
+    endMessage.classList.add("end-message");
+
+    this.gameEndScreen.appendChild(endMessage);
   }
 }

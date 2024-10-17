@@ -13,7 +13,7 @@
   </head>
   <body>
     <main>
-      <img src="/images/sombrero.png" alt="sombrero" id="sombrero" />
+      <img src="./images/sombrero.png" alt="sombrero" id="sombrero" />
 
       <!-- 1 Game start screen #game-intro -->
       <div id="game-intro">
@@ -26,25 +26,29 @@
           <span class="highlight">candy 🍬</span> for the
           <span class="highlight">piñata 🪅</span>!
           <br />
+          <br />
           It’s up to you to help him catch all the falling candies
           <br />
           and fill up the piñata before the
           <span class="highlight">party</span> starts.
+          <br />
           <br />
           But <span class="highlight">watch out❗ </span>
           <br />
           Don’t get tempted by the <span class="highlight">tequila 🍋</span>,
           <br />
           and steer clear of the tricky
-          <span class="highlight">cactus! 🌵 </span> <br />Stuff that piñata
-          full of sweets so the mariachi can bring the fun to the
+          <span class="highlight">cactus! 🌵 </span> <br />
+          <br />
+          Stuff that piñata full of sweets so the mariachi can bring the fun to
+          the
           <span class="highlight">fiesta! </span>
           <br />
           Get set to party like there's no mañana!"
         </h3>
         <br />
         <img
-          src="/images/mariachi.png"
+          src="./images/mariachi.png"
           alt="mariachi"
           class="mariachi"
           id="game-mariachi"
@@ -56,28 +60,72 @@
 
       <!-- 2 Game starts #game-screen is initially hidden using CSS style display: none -->
       <div id="game-screen" style="display: none">
+        <div id="countdown-message" style="display: none"></div>
         <div id="game-container">
           <div>
+            <p>Time left: <span id="timer">60</span> seconds</p>
             <h2>Your statistics</h2>
-            <p>Level: <span id="level">0</span></p>
-            <p>Candies collected: <span id="candies">0</span></p>
-            <p>Lives: <span id="lives">5</span></p>
+            <p>Level: <span id="level">0</span>/3</p>
             <p>
-              Use the left ⬅️
+              Candies collected: <span id="candies">0</span>/10
+              <img
+                src="images/candies.png"
+                alt="Candies"
+                style="width: 80px; height: 80px; vertical-align: middle"
+              />
+            </p>
+            <p>
+              Lives: <span id="lives">5</span>/3 -
+              <img
+                src="images/cactus.png"
+                alt="Cactus"
+                style="width: 80px; height: 80px; vertical-align: middle"
+              />
+            </p>
+            <p>
               <br />
-              &
+              Use the Left ⬅️ & ➡️ Right arrow <br />
               <br />
-              right arrow ➡️ <br />
-              to control the Mariachi!
+              <img
+                src="images/chili.png"
+                alt="Chili"
+                style="width: 80px; height: 80px; vertical-align: middle"
+              />
+              + speed &
+              <img
+                src="images/tequila2.png"
+                alt="Tequila"
+                style="width: 80px; height: 80px; vertical-align: middle"
+              />
+              - speed
+              <br />
+              <br />
+              <img
+                src="images/tacos.png"
+                alt="Tacos"
+                style="width: 100px; height: 80px; vertical-align: middle"
+              />
+              fatter &
+              <img
+                src="images/avocado.png"
+                alt="Avocado"
+                style="width: 40px; height: 80px; vertical-align: middle"
+              />
+              thinner
+              <br />
+              <br />
+
+              <br />
             </p>
           </div>
         </div>
       </div>
 
       <!-- 3. #game-end is initially hidden using CSS style display: none -->
+      <!-- Image will be set dynamically based on win or loss inside the src -->
       <div id="game-end">
-        <img src="./images/finalimage.jpg" alt="finalimage" class="" />
         <h1>Game Over</h1>
+        <img id="finalImage" src="" alt="Final game result image" />
         <br />
         <button id="restart-button">Restart game</button>
       </div>

@@ -7,6 +7,11 @@ class Player {
     this.height = height;
     this.directionX = 0;
     this.directionY = 0;
+    this.speed = 5;
+
+    // Calculate initial position: center horizontally, bottom of the screen
+    this.left = window.innerWidth / 2 - this.width / 2;
+    this.top = window.innerHeight - this.height - 10;
 
     // the following creates the img in js to append to the game screen
     this.element = document.createElement("img");
@@ -29,18 +34,18 @@ class Player {
     if (this.left < 150) {
       this.left = 150;
     }
-    // this part puts the mariachi to the left
-    if (this.left + this.width > 1050) {
-      this.left = 1050 - this.width;
+    // this part puts the mariachi to the right
+    if (this.left + this.width > window.innerWidth) {
+      this.left = window.innerWidth - this.width;
     }
     // this part moves the mariachi up and down
-    if (this.top < 1200) {
+    if (this.top < 2200) {
       this.top = 1200;
     }
 
     // this part moves the mariachi up and down
-    if (this.top + this.height > 1500) {
-      this.top = 1500 - this.height;
+    if (this.top + this.height > 2200) {
+      this.top = 2200 - this.height;
     }
 
     this.updatePosition();
@@ -61,11 +66,19 @@ class Player {
       playerRect.top < obstacleRect.bottom &&
       playerRect.bottom > obstacleRect.top
     ) {
-      // setTimeout(()=>){
-      // this.element.classList.add("spin");
       return true;
     } else {
       return false;
     }
+  }
+
+  // Shake the Mariachi on collision
+  shake() {
+    this.element.classList.add("shake");
+
+    // Remove the shake class after the animation duration
+    setTimeout(() => {
+      this.element.classList.remove("shake");
+    }, 500); // Match this duration with the CSS animation duration
   }
 }

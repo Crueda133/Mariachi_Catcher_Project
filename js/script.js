@@ -1,5 +1,6 @@
-// Show the piñata cursor when the mouse moves :)
+//agregar musica
 
+// Show the piñata cursor when the mouse moves :)
 window.onload = function () {
   const sombrero = document.getElementById("sombrero");
 
@@ -55,9 +56,9 @@ gameMariachi.style.display = "block";
 document.addEventListener("keydown", (event) => {
   if (ourGame && ourGame.player) {
     if (event.key === "ArrowLeft") {
-      ourGame.player.directionX = -5; // Move left
+      ourGame.player.directionX = ourGame.speed * -1; // Move left
     } else if (event.key === "ArrowRight") {
-      ourGame.player.directionX = 5; // Move right
+      ourGame.player.directionX = ourGame.speed; // Move right
     }
   }
 });
@@ -66,4 +67,12 @@ document.addEventListener("keyup", () => {
   if (ourGame && ourGame.player) {
     ourGame.player.directionX = 0; // Stop moving when key is released
   }
+});
+
+// Restart Game button
+restartButton.addEventListener("click", function () {
+  if (ourGame) {
+    ourGame.restartGame(); // Call the restart method in the Game class
+  }
+  console.log("restart game clicked");
 });
