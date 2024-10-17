@@ -64,7 +64,7 @@ h3 {
   align-items: center;
   padding: 20px;
   justify-content: center;
-  background-image: url("/images/background1.jpg");
+  background-image: url("../images/background1.jpg");
   background-size: cover;
   background-position: center;
   position: fixed;
@@ -121,7 +121,7 @@ h3 {
 #game-screen {
   display: none;
   text-align: center;
-  background-image: url("/images/background0.avif");
+  background-image: url("../images/background0.avif");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
