@@ -22,8 +22,8 @@ class Player {
     this.element.style.top = `${this.top}px`;
     this.element.style.left = `${this.left}px`;
 
-    //this adds the img to the DOM
-    this.gameScreen.appendChild(this.element);
+    // //this adds the img to the DOM
+    // this.gameScreen.appendChild(this.element);
   }
 
   // reset the mariachi's position

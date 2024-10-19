@@ -1,9 +1,18 @@
 class Game {
   constructor(startScreen, gameScreen, gameEndScreen) {
+    // Necessary game elements
     this.startScreen = document.querySelector("#game-intro");
     this.gameScreen = document.querySelector("#game-screen");
     this.gameContainer = document.querySelector("#game-container");
     this.gameEndScreen = document.querySelector("#game-end");
+
+    // Audio elements
+    this.music = new Audio("music/musicMariachi.mp3");
+    this.music.loop = true;
+    this.music.volume = 0.1;
+    this.crashSound = new Audio("music/crash.mp3");
+
+    // Score and lives
     this.candiesScoreElement = document.getElementById("candies");
     this.livesElement = document.getElementById("lives");
     this.height = window.innerHeight;
@@ -13,8 +22,8 @@ class Game {
     this.candies = 0;
     this.lives = 3;
     this.score = 0;
-    this.speed = 5; //obstacles speed
-    this.playerSpeed = 5; //player speed
+    this.speed = 5; //obstacles speed CHECK
+    this.playerSpeed = 5; //player speed CHECK
     this.defaultSpeed = 5;
     this.gameIsOver = false;
     this.gameIntervalId = null;
@@ -23,13 +32,27 @@ class Game {
     this.countdownTexts = ["¡Tres!", "¡Dos!", "¡Uno!", "GO!"];
     this.restartButton = document.querySelector("#restart-button");
 
-    // // Player Mariachi - this uses the Player class from player.js
+    // // Player Mariachi - this uses the Player class from player.js and center it
     this.player = new Player(500, 500, 300, 300, "images/mariachi.png");
+    const playerStartX = (this.width - this.player.width) / 2;
+    const playerStartY = this.height - this.player.height - 20;
+    this.player.setPosition(playerStartX, playerStartY);
 
+    // // Ensure the player is added to the screen before the countdown starts
+    // this.gameScreen.appendChild(this.player.element);
+
+    // Timer
     this.timer = 60;
     this.timerElement = document.querySelector("#timer");
     this.gameIntervalId = null;
     this.timerIntervalId = null;
+
+    // Start the background mariachi music
+    this.music.play();
+  }
+  stopMusic() {
+    this.music.pause();
+    this.music.currentTime = 0;
   }
 
   start() {
@@ -38,25 +61,28 @@ class Game {
 
     // the following is to hide the start screen
     this.startScreen.style.display = "none";
+
+    // Hide or remove the intro Mariachi image
+    const introMariachi = document.querySelector("#game-mariachi");
+    if (introMariachi) {
+      introMariachi.style.display = "none";
+    }
+
+    this.startScreen.style.display = "none";
     this.gameScreen.style.display = "block";
     this.gameContainer.style.display = "block";
     this.gameEndScreen.style.display = "none";
-
-    // Center the player on the screen when the game starts
-    const playerStartX = (this.width - this.player.width) / 2;
-    const playerStartY = this.height - this.player.height - 20;
-
-    this.player.setPosition(playerStartX, playerStartY); // Set player position
-    this.gameScreen.appendChild(this.player.element);
-
-    // Ensure the player is added to the screen before the countdown starts
-    this.gameScreen.appendChild(this.player.element);
 
     // Reset the score and lives display
     this.candies = 0;
     this.lives = 3;
     this.candiesScoreElement.innerText = this.candies;
     this.livesElement.innerText = this.lives;
+
+    // Ensure the player is added to the screen only once
+    if (!this.player.element.parentNode) {
+      this.gameScreen.appendChild(this.player.element);
+    }
 
     // Start timer, countdown
     this.startTimer();
@@ -158,6 +184,7 @@ class Game {
           this.player.element.style.width = `${this.player.width}px`;
           currentObstacle.element.remove();
         } else if (currentObstacle.element.src.includes("cactus")) {
+          this.crashSound.play();
           this.lives--;
           this.livesElement.innerText = this.lives;
           this.highlightLivesScore(this.livesElement);
@@ -171,8 +198,8 @@ class Game {
           this.player.element.style.width = `${this.player.width}px`;
           currentObstacle.element.remove();
         } else if (currentObstacle.element.src.includes("tequila")) {
-          // this.speed -= 10; // Decreases speed of player
-          this.playerSpeed -= 30; // Decrease falling objects
+          this.speed -= 10; // Decreases speed of player
+          this.playerSpeed -= 10; // Decrease falling objects
           currentObstacle.element.remove();
         }
       }
@@ -225,13 +252,29 @@ class Game {
 
   // restartGame method to reset the game
   restartGame() {
+    this.stopMusic();
     this.gameEndScreen.style.display = "none";
     this.gameScreen.style.display = "none";
     this.startScreen.style.display = "block";
+    // Remove the old player element from the DOM
+    if (this.player && this.player.element) {
+      this.player.element.remove();
+    }
+
+    // Re-initialize the player
+    this.player = new Player(500, 500, 300, 300, "images/mariachi.png");
+    this.setPlayerPosition();
+  }
+
+  setPlayerPosition() {
+    const playerStartX = (this.width - this.player.width) / 2;
+    const playerStartY = this.height - this.player.height - 20;
+    this.player.setPosition(playerStartX, playerStartY);
   }
 
   endGame(result) {
-    clearInterval(this.timerIntervalId); // Stop the timer when the game ends
+    // Stop the timer when the game ends
+    clearInterval(this.timerIntervalId);
 
     //for the obstacles
     this.player.element.remove();
@@ -265,4 +308,15 @@ class Game {
 
     this.gameEndScreen.appendChild(endMessage);
   }
+
+  // Restart the game and reset the music
+  restartGame() {
+    this.music.play();
+    this.startScreen.style.display = "block";
+    this.gameEndScreen.style.display = "none";
+  }
 }
+
+// Start music when the intro screen is displayed
+const game = new Game();
+game.startIntroMusic();
