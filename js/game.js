@@ -198,8 +198,8 @@ class Game {
           this.player.element.style.width = `${this.player.width}px`;
           currentObstacle.element.remove();
         } else if (currentObstacle.element.src.includes("tequila")) {
-          this.speed -= 10; // Decreases speed of player
-          // this.playerSpeed -= 10; // Decrease falling objects
+          this.speed += -10; // Decreases speed of player
+          this.playerSpeed += -10; // Decrease falling objects
           currentObstacle.element.remove();
         }
       }
