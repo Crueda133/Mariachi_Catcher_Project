@@ -42,6 +42,13 @@ class Game {
     this.gameContainer.style.display = "block";
     this.gameEndScreen.style.display = "none";
 
+    // Center the player on the screen when the game starts
+    const playerStartX = (this.width - this.player.width) / 2;
+    const playerStartY = this.height - this.player.height - 20;
+
+    this.player.setPosition(playerStartX, playerStartY); // Set player position
+    this.gameScreen.appendChild(this.player.element);
+
     // Ensure the player is added to the screen before the countdown starts
     this.gameScreen.appendChild(this.player.element);
 
@@ -164,8 +171,8 @@ class Game {
           this.player.element.style.width = `${this.player.width}px`;
           currentObstacle.element.remove();
         } else if (currentObstacle.element.src.includes("tequila")) {
-          this.speed -= 2; // Decreases falling speed of obstacles
-          this.playerSpeed -= 20; // Decreases player speed
+          // this.speed -= 10; // Decreases speed of player
+          this.playerSpeed -= 30; // Decrease falling objects
           currentObstacle.element.remove();
         }
       }
@@ -197,7 +204,7 @@ class Game {
     //Game is over conditions
 
     // Check if candies or cactus conditions are met
-    if (this.candies >= 10) {
+    if (this.candies >= 5) {
       this.gameIsOver = true;
       this.endGame("won");
       return;

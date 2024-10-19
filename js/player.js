@@ -26,6 +26,13 @@ class Player {
     this.gameScreen.appendChild(this.element);
   }
 
+  // reset the mariachi's position
+  setPosition(x, y) {
+    this.left = x;
+    this.top = y;
+    this.updatePosition();
+  }
+
   // to move the Mariachi
   move() {
     this.left += this.directionX;
