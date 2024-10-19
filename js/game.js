@@ -190,8 +190,8 @@ class Game {
           this.highlightLivesScore(this.livesElement);
           currentObstacle.element.remove();
         } else if (currentObstacle.element.src.includes("chili")) {
-          this.speed += 10; // Increase falling speed of obstacles
-          this.playerSpeed += 10; // Increase player speed
+          this.speed += 10; // Increase player speed
+          this.playerSpeed += 10; // Increase falling speed of obstacles
           currentObstacle.element.remove();
         } else if (currentObstacle.element.src.includes("tacos")) {
           this.player.width += 110; // Increase width (make player fat)
@@ -199,7 +199,7 @@ class Game {
           currentObstacle.element.remove();
         } else if (currentObstacle.element.src.includes("tequila")) {
           this.speed -= 10; // Decreases speed of player
-          this.playerSpeed -= 10; // Decrease falling objects
+          // this.playerSpeed -= 10; // Decrease falling objects
           currentObstacle.element.remove();
         }
       }
