@@ -314,6 +314,7 @@ class Game {
   restartGame() {
     this.music.play();
     this.startScreen.style.display = "block";
+    this.gameScreen.style.display = "none";
     this.gameEndScreen.style.display = "none";
   }
 }
