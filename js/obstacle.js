@@ -23,6 +23,8 @@ class Obstacle {
     const weightedObstacleTypes = [
       ...this.obstacleTypes, // Normal obstacles
       { name: "candy", src: "images/candies.png" }, // Adding extra "candy" entries
+      { name: "candy", src: "images/candies.png" }, // Adding extra "candy" entries
+      { name: "cactus", src: "images/cactus.png" }, // Adding extra "cactus" entries
       { name: "cactus", src: "images/cactus.png" }, // Adding extra "cactus" entries
       { name: "cactus", src: "images/cactus.png" }, // Adding extra "cactus" entries
     ];
