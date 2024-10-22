@@ -79,6 +79,7 @@ h3 {
 #game-intro img {
   width: 370px;
   height: auto;
+  margin: 0 auto;
 }
 
 #start-button {

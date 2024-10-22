@@ -20,6 +20,11 @@ const startButton = document.querySelector("#start-button");
 
 // Restart Game button
 const restartButton = document.querySelector("#restart-button");
+// Hide the game end screen
+document.getElementById("game-end").style.display = "none"; //new
+
+// Show the game intro screen
+document.getElementById("game-intro").style.display = "block"; //new
 
 // Make the mariachi spin when the Start Game button is clicked
 const mariachiImage = document.querySelector("#game-intro img");
@@ -76,5 +81,6 @@ restartButton.addEventListener("click", function () {
   if (ourGame) {
     ourGame.restartGame(); // Call the restart method in the Game class
   }
+  location.reload(); // refresh the page
   console.log("restart game clicked");
 });

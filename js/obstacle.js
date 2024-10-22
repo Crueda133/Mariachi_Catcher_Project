@@ -19,8 +19,18 @@ class Obstacle {
       { name: "tequila", src: "images/tequila2.png" },
     ];
 
+    // Increase the chances of candy appearing by adding more candy entries CHECK
+    const weightedObstacleTypes = [
+      ...this.obstacleTypes, // Normal obstacles
+      { name: "candy", src: "images/candies.png" }, // Adding extra "candy" entries
+      { name: "cactus", src: "images/cactus.png" }, // Adding extra "cactus" entries
+      { name: "cactus", src: "images/cactus.png" }, // Adding extra "cactus" entries
+    ];
+
     this.randomObstacle =
-      this.obstacleTypes[Math.floor(Math.random() * this.obstacleTypes.length)];
+      weightedObstacleTypes[
+        Math.floor(Math.random() * weightedObstacleTypes.length)
+      ];
 
     //this creates the <img /> in js to append to the game screen
     this.element = document.createElement("img");
